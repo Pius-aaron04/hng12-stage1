@@ -50,12 +50,7 @@ def get_fact(number: int, fact_type: str = "math") -> str:
 def is_armstrong(number: int) -> bool:
     str_n = str(number)
 
-    sum_ = 0
-
-    for digit in str_n:
-        sum_ += int(digit) ** 3
-
-    return sum_ == number
+    return  sum(int(digit) ** len(str_n) for digit in str_n) == number
 
 
 def is_prime(number: int) -> bool:
