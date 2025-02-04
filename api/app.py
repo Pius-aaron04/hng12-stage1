@@ -1,10 +1,23 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from .maths_utils import (
         is_perfect, is_even, get_fact,
         is_prime, is_armstrong, digit_sum
         )
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request,
+                                       exc: RequestValidationError):
+    query_string = request.scope['query_string'].decode()
+    if len(query_string.split('=')) <= 1:
+        return JSONResponse(status_code=400,
+                            content={"number": None, "error": "true"})
+    return JSONResponse(status_code=400,
+                        content={"number": "alphabet", "error": True})
 
 
 @app.get('/')
