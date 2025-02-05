@@ -33,6 +33,7 @@ async def api_root():
 @app.get('/api/classify-number')
 async def classify_number(number: int) -> dict:
 
+    factos = await get_fact(number)
     # number properties
     properties = ["even" if is_even(number) else "odd"]
     if is_armstrong(number):
@@ -43,7 +44,7 @@ async def classify_number(number: int) -> dict:
                 "is_perfect": is_perfect(number),
                 "properties": properties,
                 "digit_sum": digit_sum(number),
-                "fun_fact": get_fact(number)
+                "fun_fact": factos
              }
 
     return response

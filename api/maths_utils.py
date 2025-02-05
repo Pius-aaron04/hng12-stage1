@@ -3,7 +3,7 @@ Defines math utility functions
 """
 
 from math import isqrt
-import requests
+import httpx
 
 
 def is_even(number: int) -> bool:
@@ -27,12 +27,14 @@ def is_perfect(number: int) -> bool:
     returns true if number is a perfect square
     '''
 
+    if number == 0:
+        return False
     sqrt = isqrt(number)  # gets the square root of the number
 
     return sqrt ** 2 == number  # confirms square root
 
 
-def get_fact(number: int, fact_type: str = "math") -> str:
+async def get_fact(number: int, fact_type: str = "math") -> str:
     '''fetch fun fact about `number` via a public web API
 
     number: int
@@ -40,17 +42,19 @@ def get_fact(number: int, fact_type: str = "math") -> str:
     '''
 
     if fact_type not in ['math', 'trivial', 'year', 'date']:
-        raise Exception('Unsupported fun fact path type')
+        raise ValueError('Unsupported fun fact path type')
 
-    r = requests.get(f'http://numbersapi.com/{number}/{fact_type}')
-
-    return r.text
+    async with httpx.AsyncClient() as client:
+        response = await client.\
+                get(f'http://numberapi.com/{number}/{fact_type}')
+        print(response)
+        return response.text
 
 
 def is_armstrong(number: int) -> bool:
     str_n = str(number)
 
-    return  sum(int(digit) ** len(str_n) for digit in str_n) == number
+    return sum(int(digit) ** len(str_n) for digit in str_n) == number
 
 
 def is_prime(number: int) -> bool:
