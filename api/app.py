@@ -17,7 +17,7 @@ async def validation_exception_handler(request: Request,
         return JSONResponse(status_code=400,
                             content={"number": None, "error": "true"})
     return JSONResponse(status_code=400,
-                        content={"number": "alphabet", "error": True})
+                        content={"number": query_string.split('=')[1], "error": True})
 
 
 @app.get('/')
