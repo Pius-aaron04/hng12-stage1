@@ -58,6 +58,9 @@ async def get_fact(number: int, fact_type: str = "math") -> str:
 
 
 def is_armstrong(number: int) -> bool:
+
+    if number == 0:
+        return False
     str_n = str(number)
 
     return sum(int(digit) ** len(str_n) for digit in str_n) == number
