@@ -18,20 +18,26 @@ def is_even(number: int) -> bool:
     return number % 2 == 0
 
 
-def is_perfect(number: int) -> bool:
-    '''Checks if a number is a perfect square
+def is_perfect(n: int) -> bool:
+    '''Checks if a number is a perfect number
 
     number: int
     rtype: bool
 
-    returns true if number is a perfect square
+    returns true if number is a perfect number
     '''
 
-    if number == 0:
+    if n <= 0:
         return False
-    sqrt = isqrt(number)  # gets the square root of the number
 
-    return sqrt ** 2 == number  # confirms square root
+    # Find all proper divisors of n
+    divisors = [i for i in range(1, n) if n % i == 0]
+
+    # Sum the divisors
+    sum_of_divisors = sum(divisors)
+
+    # Check if the sum of divisors equals the number
+    return sum_of_divisors == n
 
 
 async def get_fact(number: int, fact_type: str = "math") -> str:
